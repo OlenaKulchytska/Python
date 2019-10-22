@@ -1,0 +1,315 @@
+swagger: "2.0"
+info:
+  title: Audience
+  description: Створити сервіс для резервування аудиторій на певну дату час та проміжок часу від 1 години до 5 днів. Користувачі мають можливість резервувати аудиторії, а також редагувати, скасовувати та видаляти їх. Застерегти користувачів від накладок (два користувачі не можуть зарезервувати аудиторію на певний період час).
+  contact:
+    name: Olena Kulchytska
+    email: "olenakulchutska3@gmail.com"
+  version: "1.0"
+host: "localhost:5000"
+basePath: "/api/v1.0/"
+tags:
+- name: "users"
+  description: "Все про користувачів"
+- name: "audience"
+  description: "Аудиторія"
+schemes:
+- "https"
+- "http"
+paths:
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Отримання даних про користувачів"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Об'єкт користувача"
+          schema:
+            $ref: "#/definitions/User"
+    post:
+      tags:
+      - "users"
+      summary: "Створення нового користувача"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Об'єкт користувача"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Об'єкт користувача"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Bad data"
+        401:
+          description: "Unauthorized"
+        406:
+          description: "Not Acceptable"
+  /users/{id}:
+    get:
+      tags:
+      - "users"
+      summary: "Отримання даних про користувача"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Об'єкт користувача"
+          schema:
+            $ref: "#/definitions/User"
+        404:
+          description: "Not Found"
+    put:
+      tags:
+      - "users"
+      summary: "Оновлення даних"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Об'єкт користувача"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Об'єкт користувача"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Bad data"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        406:
+          description: "Not Acceptable"
+    delete:
+      tags:
+      - "users"
+      summary: "Видалення користувача"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Успішне видалення"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        406:
+          description: "Not Acceptable"
+  /audience:
+    get:
+      tags:
+      - "audience"
+      summary: "Резерв аудиторії"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Об'єкт повідомлення"
+          schema:
+            $ref: "#/definitions/Audience" 
+    post:
+      tags:
+      - "audience"
+      summary: "Скасування резерву"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Об'єкт повідомлення"
+        required: true
+        schema:
+          $ref: "#/definitions/Audience"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Об'єкт повідомлення"
+          schema:
+            $ref: "#/definitions/Audience"
+        400:
+          description: "Bad data"
+        401:
+          description: "Unauthorized"
+        406:
+          description: "Not Acceptable"
+  /audience/{id}:
+    get:
+      tags:
+      - "audience"
+      summary: "Отримання даних про резерв аудиторії"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Об'єкт повідомлення"
+          schema:
+            $ref: "#/definitions/Audience"
+        404:
+          description: "Not Found"
+    put:
+      tags:
+      - "audience"
+      summary: "Редагування резерву"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Об'єкт повідомлення"
+        required: true
+        schema:
+          $ref: "#/definitions/Audience"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Об'єкт повідомлення"
+          schema:
+            $ref: "#/definitions/Audience"
+        400:
+          description: "Bad data"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        406:
+          description: "Not Acceptable"
+    delete:
+      tags:
+      - "audience"
+      summary: "Видалення резерву"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Успішне видалення"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        406:
+          description: "Not Acceptable"
+          
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      number_audience:
+        type: "integer"
+        format: "int64"
+  Audience:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      reservoir_id:
+        type: "integer"
+        format: "int64"
+      date:
+        type: "string"
+        format: "date-time"
+      time:
+        type: "integer"
+        format: "int64"
+      status:
+        type: "string"
